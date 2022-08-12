@@ -27,10 +27,59 @@ function operate(operator,num1,num2){
         operation=subtraction(num1,num2);
     }
     else if(operator=="*"){
+        if(num2==null || num2==undefined || num2==''){num2=1}
         operation=multiply(num1,num2);
     }
     else if(operator=="/"){
+        if(num2==null || num2==undefined || num2==''){num2=1}
         operation=Division(num1,num2);
     }
     return operation;
 }
+
+//functions that populate the display when you click the number buttons.
+
+const total=document.querySelector('.total');
+const buttons=document.getElementById('switch');
+const NumbersKeys=buttons.querySelectorAll('.NumKey');
+const FunctionKey=buttons.querySelectorAll('.functionKey');
+const EqualKey=buttons.querySelector('.EqualKey');
+
+let firstNum;
+let operationKey;
+let SecondNum;
+
+buttons.addEventListener('click',(e)=>{
+    if(!e.target.closest('button'))return;
+    const key=e.target;
+    const keyValue=e.target.value;
+    const displayValue=total.textContent;
+    
+
+    if(key.classList.contains('NumKey')){
+        if(displayValue=='0'){
+            total.textContent=keyValue;
+        }
+        else if(total.classList.contains('previousOperators')){
+            total.textContent=keyValue;
+        }
+        else{
+            total.textContent=displayValue+keyValue;
+        }
+        total.classList.remove('previousOperators');
+        total.classList.add('NumbersAction')
+    }
+    if(key.classList.contains('functionKey')){
+        firstNum=displayValue;
+        operationKey=keyValue;
+        total.classList.remove('NumbersAction');
+        total.classList.add('previousOperators');
+    }
+    if(key.classList.contains('EqualKey')){
+        SecondNum=parseInt(displayValue);
+        firstNum=parseInt(firstNum);
+        let Solution=operate(operationKey,firstNum,SecondNum);
+        console.log(Solution);
+    }
+
+})
