@@ -31,8 +31,8 @@ function operate(operator,num1,num2){
         operation=multiply(num1,num2);
     }
     else if(operator=="/"){
-        if(num2==null || num2==undefined || num2==''){num2=1}
-        operation=Division(num1,num2);
+        if(num2==null || num2==undefined || num2=='' || num2==0){operation='Invalid No.'}
+        else operation=Division(num1,num2);
     }
     return operation;
 }
@@ -44,7 +44,7 @@ const buttons=document.getElementById('switch');
 const NumbersKeys=buttons.querySelectorAll('.NumKey');
 const FunctionKey=buttons.querySelectorAll('.functionKey');
 const EqualKey=buttons.querySelector('.EqualKey');
-
+let operationCount=0;
 let firstNum;
 let operationKey;
 let SecondNum;
@@ -70,16 +70,35 @@ buttons.addEventListener('click',(e)=>{
         total.classList.add('NumbersAction')
     }
     if(key.classList.contains('functionKey')){
-        firstNum=displayValue;
+        operationCount++;
+        if(operationCount==1){
+            firstNum=displayValue;
+            total.textContent =firstNum;
+        }
+        if(operationCount>1){
+            SecondNum=parseFloat(displayValue);
+            firstNum=parseFloat(firstNum);
+            console.log(firstNum)
+            total.textContent=operate(operationKey,firstNum,SecondNum);
+            firstNum=total.textContent;
+            console.log(firstNum)
+            
+        }
         operationKey=keyValue;
         total.classList.remove('NumbersAction');
         total.classList.add('previousOperators');
     }
     if(key.classList.contains('EqualKey')){
-        SecondNum=parseInt(displayValue);
-        firstNum=parseInt(firstNum);
+        SecondNum=parseFloat(displayValue);
+        firstNum=parseFloat(firstNum);
+        console.log(firstNum);
+        console.log(SecondNum);
+        console.log(operationKey);
         let Solution=operate(operationKey,firstNum,SecondNum);
+        if(typeof Solution=="number"){total.textContent=Solution.toFixed(3)}
+        else total.textContent=Solution;
         console.log(Solution);
+        
     }
 
 })
