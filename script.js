@@ -102,7 +102,8 @@ const buttons=document.getElementById('switch');
 const NumbersKeys=buttons.querySelectorAll('.NumKey');
 const FunctionKey=buttons.querySelectorAll('.functionKey');
 const EqualKey=buttons.querySelector('.EqualKey');
-const ClearKey=buttons.querySelector('ClearKey');
+const ClearKey=buttons.querySelector('.ClearKey');
+const DeleteKey=buttons.querySelector('.DelKey');
 let operationCount=0;
 let firstNum;
 let operationKey;
@@ -169,6 +170,12 @@ buttons.addEventListener('click',(e)=>{
         total.classList.remove('NumbersAction');
         total.classList.remove('TotalSolution');
         operationCount=0;
+    }
+    if(key.classList.contains('DelKey')){
+        total.textContent=displayValue.slice(0,-1);
+        if(total.textContent==''){
+            total.textContent='0';
+        }
     }
 
 })
