@@ -95,21 +95,25 @@ const SolutionSizeCalc=function(Solution){
     
 
 
-//functions that populate the display when you click the number buttons.
+//functions that populate the display when you click the number document.
 
 const total=document.querySelector('.total');
-const buttons=document.getElementById('switch');
-const NumbersKeys=buttons.querySelectorAll('.NumKey');
-const FunctionKey=buttons.querySelectorAll('.functionKey');
-const EqualKey=buttons.querySelector('.EqualKey');
-const ClearKey=buttons.querySelector('.ClearKey');
-const DeleteKey=buttons.querySelector('.DelKey');
+const buttons=document.querySelectorAll('button');
+const NumbersKeys=document.querySelectorAll('.NumKey');
+const FunctionKey=document.querySelectorAll('.functionKey');
+const EqualKey=document.querySelector('.EqualKey');
+const ClearKey=document.querySelector('.ClearKey');
+const DeleteKey=document.querySelector('.DelKey');
 let operationCount=0;
 let firstNum;
 let operationKey;
 let SecondNum;
+let operationCountKEY=0;
+let firstNumKEY;
+let operationKeys;
+let SecondNumKEY;
 
-buttons.addEventListener('click',(e)=>{
+document.addEventListener('click',(e)=>{
     if(!e.target.closest('button'))return;
     const key=e.target;
     const keyValue=e.target.value;
@@ -177,6 +181,78 @@ buttons.addEventListener('click',(e)=>{
         operationCount=0;
     }
     if(key.classList.contains('DelKey')){
+        total.textContent=displayValue.slice(0,-1);
+        if(total.textContent==''){
+            total.textContent='0';
+        }
+    }
+
+})
+
+// KeyDown Event listener
+
+
+document.addEventListener("keydown",(e)=>{
+    let keyValue=e.key;
+    const displayValue=total.textContent;
+    console.log(keyValue)
+
+    
+
+    if((parseInt(keyValue)>=0 && parseInt(keyValue)<=9) || keyValue=="."){
+        if(displayValue=='0'){
+            total.textContent=keyValue;
+        }
+        else if(total.classList.contains('previousOperators')){
+            total.textContent=keyValue;
+        }
+        else if(total.classList.contains('TotalSolution')){
+            total.textContent=keyValue;
+        }
+        else{
+            if(displayValue.length<=12){
+                if(keyValue=='.'){
+                    if(displayValue.includes('.')){return}
+                }
+                total.textContent=displayValue+keyValue;
+            }
+            else{
+                return;
+            }
+        }
+        total.classList.remove('TotalSolution');
+        total.classList.remove('previousOperators');
+        total.classList.add('NumbersAction')
+    }
+    if(keyValue==="-" || keyValue==="+" || keyValue==="*" || keyValue==="/"){
+        operationCountKEY++;
+        if(operationCountKEY==1){
+            firstNumKEY=displayValue;
+            total.textContent =firstNumKEY;
+        }
+        if(operationCountKEY>1){
+            SecondNumKEY=parseFloat(displayValue);
+            firstNumKEY=parseFloat(firstNumKEY);
+            const CalcResult=operate(operationKeys,firstNumKEY,SecondNumKEY);
+            total.textContent=SolutionSizeCalc(CalcResult);
+            firstNumKEY=total.textContent;
+        }
+        operationKeys=keyValue;
+        total.classList.remove('TotalSolution');
+        total.classList.remove('NumbersAction');
+        total.classList.add('previousOperators');
+    }
+    if(keyValue==="Enter"){
+        SecondNumKEY=parseFloat(displayValue);
+        firstNumKEY=parseFloat(firstNumKEY);
+        let Solution=operate(operationKeys,firstNumKEY,SecondNumKEY);
+        total.textContent=SolutionSizeCalc(Solution);
+        operationCountKEY=0;
+        total.classList.remove('previousOperators');
+        total.classList.remove('NumbersAction');
+        total.classList.add('TotalSolution');
+    }
+    if(keyValue=="Backspace"){
         total.textContent=displayValue.slice(0,-1);
         if(total.textContent==''){
             total.textContent='0';
