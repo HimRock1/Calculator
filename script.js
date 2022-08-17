@@ -21,7 +21,7 @@ const Division=function(first,...args){
 function operate(operator,num1,num2){
     let operation;
     if(CheckNullOperand(num1)){
-        operation='Invalid Operation';
+        operation='Invalid No.';
     }
     else if(operator=="+"){
         if(isNaN(num1) || isNaN(num2)){
@@ -127,10 +127,15 @@ buttons.addEventListener('click',(e)=>{
             total.textContent=keyValue;
         }
         else{
-            if(keyValue.includes('.')){
-                if(displayValue.includes('.')){return}
+            if(displayValue.length<=12){
+                if(keyValue.includes('.')){
+                    if(displayValue.includes('.')){return}
+                }
+                total.textContent=displayValue+keyValue;
             }
-            total.textContent=displayValue+keyValue;
+            else{
+                return;
+            }
         }
         total.classList.remove('TotalSolution');
         total.classList.remove('previousOperators');
