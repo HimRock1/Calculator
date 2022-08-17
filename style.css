@@ -1,0 +1,78 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 95vh;
+}
+
+.calculator{
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    flex-direction: column;
+    flex: auto;
+    background-color: black;
+    margin: 5px;
+    border-radius: 20px;
+
+}
+.calculator .total{
+    box-sizing: border-box;
+    width: 100%;
+    height: 30%;
+    padding: 15px;
+    display: inline-flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+    background-clip: content-box;
+    background-color: aliceblue;
+    color: black;
+    font-size: 50px;
+    flex: auto;
+    font-family: 'Changa', sans-serif;
+    border-radius: 20px;
+
+}
+#switch{
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2px;
+}
+#switch #clear{
+    grid-column:1/ span 2;
+}
+#switch #Delete{
+    grid-column:3/span 2 ;
+}
+button{
+    font-size: 30px;
+    font-family: 'Volkhov', serif;
+    text-transform: uppercase;
+    border-radius: 10px;
+}
+.functionKey{
+    background-color: rgb(228, 215, 100);
+}
+.EqualKey{
+    background-color: aquamarine;
+}
+#clear,#Delete{
+    background-color: rgb(238, 119, 119);
+}
+button:active{
+    background-color: azure;
+    transform: scale(0.97);
+}
